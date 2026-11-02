@@ -8,7 +8,7 @@
 ## 成果
 
 在網頁上用攝影機即時偵測 468 個臉部特徵點，換算成頭部角度、眨眼、嘴巴開合等參數，驅動 Live2D 角色，並透過 OBS 串流到 YouTube 直播。
-示範影片：[特徵點偵測](https://www.youtube.com/watch?v=id46uL_Yzsk)｜[驅動 Live2D](https://www.youtube.com/watch?v=lX7O4dP1Rkk)｜[直播](https://www.youtube.com/watch?v=GYcZCGL6EN4)
+示範影片：[特徵點偵測](https://www.youtube.com/watch?v=id46uL_Yzsk)｜[驅動 Live2D](https://www.youtube.com/watch?v=lX7O4dP1Rkk)
 
 ## 資料夾結構
 
