@@ -97462,7 +97462,6 @@ class Camera {
         view.mouthOpenY = ((faces[0].keypoints[15].y)-(faces[0].keypoints[11].y)-12)/50
       }
 
-      console.log((faces[0].keypoints[15].y)-(faces[0].keypoints[11].y))
 
 
     });

@@ -11,21 +11,23 @@
 
 ```
 .
-├── index.html    # GitHub Pages 首頁（連到主作品、直播版與示範影片）
+├── index.html    # GitHub Pages 首頁（連到主作品與示範影片）
 ├── .nojekyll     # 讓 GitHub Pages 不忽略 _開發歷程/ 資料夾
 ├── src/          # 主作品：臉部特徵點驅動 Live2D（初音未來、黑板背景），可執行
 ├── 啟動網頁版.bat  # 雙擊即可在本機開啟主作品
 └── _開發歷程/
-    ├── 01_臉部特徵點偵測網頁/      # 第一階段：TF.js Face Landmarks Detection 網頁
-    └── 03_Live2D直播_OBS綠幕/     # 延伸：MediaPipe＋One Euro Filter 驅動 Hiyori，綠幕背景供 OBS 直播
+    └── 01_臉部特徵點偵測網頁/      # 第一階段：TF.js Face Landmarks Detection 網頁
 ```
 
-## 作法重點（直播版 `_開發歷程/03_Live2D直播_OBS綠幕/facedetect.js`、`parameter.js`）
+## 作法重點（`src/src.a2b27638.js` 的 `drawResults`）
 
-- 頭部角度：用 3 個特徵點構成平面的法向量，換算成頭部三軸旋轉角；有校正按鈕，把目前姿勢設為零點。
-- 眨眼／嘴巴：眼瞼、嘴唇上下特徵點的距離除以臉寬正規化。
-- 以 One Euro Filter 平滑頭部角度與眨眼值，減少抖動。
-- Cubism 模型載入以 Live2D Cubism SDK for Web 為基礎；特徵點到角色參數的對應與平滑為本專案實作。
+- 左右擺頭：比較左右眼角特徵點的深度（z）差。
+- 上下點頭：以鼻樑特徵點的垂直位置換算角度。
+- 歪頭：左右眼下緣特徵點的高度差。
+- 眨眼：上下眼瞼特徵點的距離小於門檻即判定閉眼。
+- 嘴巴：上下唇特徵點的距離換算開合程度。
+- 眉毛：眉毛與眼睛特徵點的距離換算眉毛高低。
+- Cubism 模型載入以 Live2D Cubism SDK for Web 為基礎；特徵點到角色參數的對應為本專案實作。
 
 ## 本機執行
 
