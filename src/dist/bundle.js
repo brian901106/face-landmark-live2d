@@ -9570,6 +9570,9 @@ var LAppDelegate = (function () {
         return true;
     };
     LAppDelegate.prototype.onResize = function () {
+        if (!exports.canvas || !this._view) {
+            return;
+        }
         this._resizeCanvas();
         this._view.initialize();
         this._view.initializeSprite();
@@ -9679,8 +9682,14 @@ var LAppDelegate = (function () {
         this._view.initializeSprite();
     };
     LAppDelegate.prototype._resizeCanvas = function () {
-        exports.canvas.width = window.innerWidth;
-        exports.canvas.height = window.innerHeight;
+        if (!exports.canvas) {
+            return;
+        }
+        var dpr = window.live2dPixelRatio();
+        exports.canvas.width = Math.round(window.innerWidth * dpr);
+        exports.canvas.height = Math.round(window.innerHeight * dpr);
+        exports.canvas.style.width = window.innerWidth + 'px';
+        exports.canvas.style.height = window.innerHeight + 'px';
     };
     return LAppDelegate;
 }());
@@ -9691,8 +9700,8 @@ function onClickBegan(e) {
         return;
     }
     LAppDelegate.getInstance()._captured = true;
-    var posX = e.pageX;
-    var posY = e.pageY;
+    var posX = (e.pageX) * window.live2dPixelRatio();
+    var posY = (e.pageY) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
 }
 function onMouseMoved(e) {
@@ -9704,8 +9713,8 @@ function onMouseMoved(e) {
         return;
     }
     var rect = e.target.getBoundingClientRect();
-    var posX = e.clientX - rect.left;
-    var posY = e.clientY - rect.top;
+    var posX = (e.clientX - rect.left) * window.live2dPixelRatio();
+    var posY = (e.clientY - rect.top) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
 }
 function onClickEnded(e) {
@@ -9715,8 +9724,8 @@ function onClickEnded(e) {
         return;
     }
     var rect = e.target.getBoundingClientRect();
-    var posX = e.clientX - rect.left;
-    var posY = e.clientY - rect.top;
+    var posX = (e.clientX - rect.left) * window.live2dPixelRatio();
+    var posY = (e.clientY - rect.top) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 function onTouchBegan(e) {
@@ -9725,8 +9734,8 @@ function onTouchBegan(e) {
         return;
     }
     LAppDelegate.getInstance()._captured = true;
-    var posX = e.changedTouches[0].pageX;
-    var posY = e.changedTouches[0].pageY;
+    var posX = (e.changedTouches[0].pageX) * window.live2dPixelRatio();
+    var posY = (e.changedTouches[0].pageY) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
 }
 function onTouchMoved(e) {
@@ -9738,8 +9747,8 @@ function onTouchMoved(e) {
         return;
     }
     var rect = e.target.getBoundingClientRect();
-    var posX = e.changedTouches[0].clientX - rect.left;
-    var posY = e.changedTouches[0].clientY - rect.top;
+    var posX = (e.changedTouches[0].clientX - rect.left) * window.live2dPixelRatio();
+    var posY = (e.changedTouches[0].clientY - rect.top) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
 }
 function onTouchEnded(e) {
@@ -9749,8 +9758,8 @@ function onTouchEnded(e) {
         return;
     }
     var rect = e.target.getBoundingClientRect();
-    var posX = e.changedTouches[0].clientX - rect.left;
-    var posY = e.changedTouches[0].clientY - rect.top;
+    var posX = (e.changedTouches[0].clientX - rect.left) * window.live2dPixelRatio();
+    var posY = (e.changedTouches[0].clientY - rect.top) * window.live2dPixelRatio();
     LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 function onTouchCancel(e) {
@@ -9959,9 +9968,11 @@ var LAppLive2DManager = (function () {
             model.baseX = this.baseX;
             model.baseY = this.baseY;
             if (model.getModel()) {
-                if (model.getModel().getCanvasWidth() > 1.0 && width < height) {
-                    model.getModelMatrix().setWidth(2.0);
-                    projection.scale(1.0, width / height);
+                if (width < height) {
+                    // 直向螢幕：以寬度為基準縮放，角色不會被放大到超出畫面
+                    var portraitScale = 1.3;
+                    projection.scale(portraitScale, portraitScale * width / height);
+                    projection.translateRelative(0.0, 0.12);
                 }
                 else {
                     projection.scale(height / width, 1.0);
@@ -11116,7 +11127,8 @@ var LAppView = (function () {
         var initBackGroundTexture = function (textureInfo) {
             var x = width * 0.5;
             var y = height * 0.5;
-            var fwidth = textureInfo.width * 3;
+            // 橫向維持原本的比例；直向改成正方形填滿高度，黑板圖案才看得到
+            var fwidth = width >= height ? Math.max(width, height * 2.13) : height;
             var fheight = height;
             _this._back = new lappsprite_1.LAppSprite(x, y, fwidth, fheight, textureInfo.id);
         };

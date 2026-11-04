@@ -97803,7 +97803,12 @@ async function setupDatGui(urlParams) {
     params.STATE.isSizeOptionChanged = true;
   });
   cameraFolder.open();
-  return (0, _option_panel.setupModelFolder)(gui, urlParams);
+  const panel = await (0, _option_panel.setupModelFolder)(gui, urlParams);
+  // 小螢幕預設收合控制面板，避免擋住角色
+  if (window.innerWidth < 768) {
+    gui.close();
+  }
+  return panel;
 }
 },{"./shared/params":"src/shared/params.js","./shared/option_panel":"src/shared/option_panel.js"}],"src/shared/stats_panel.js":[function(require,module,exports) {
 "use strict";

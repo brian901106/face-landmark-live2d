@@ -14,65 +14,95 @@ limitations under the License.
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
     <!-- Pollyfill script -->
     <script src="https://unpkg.com/core-js-bundle@3.51.0/minified.js"></script>
     <!-- Live2DCubismCore script -->
     <script src = "./Core/live2dcubismcore.js"></script>
     <!-- Build script -->
     <script src = "./dist/bundle.js"></script>
+  <title>臉部特徵點驅動 Live2D</title>
+  <script>
+    // Live2D 畫布的解析度倍率（手機高解析螢幕更清晰，上限 2 以免太耗效能）
+    window.live2dPixelRatio = function () {
+      return Math.min(window.devicePixelRatio || 1, 2);
+    };
+  </script>
   <style>
-    body {
+    html, body {
       margin: 0;
-      display: flex;
-      position: relative;
+      height: 100%;
+      overflow: hidden;
+      background: #2f6b5e;
+      overscroll-behavior: none;
+    }
+
+    /* Live2D 畫布（由 bundle.js 加到 body 底下）鋪滿整個畫面 */
+    body > canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      touch-action: none;
     }
 
     #stats {
-      position: relative;
-      width: 100%;
-      height: 80px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
     }
 
+    /* 隱藏的 video 不佔版面 */
     #main {
-      position: relative;
-      margin: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .canvas-wrapper {
+      position: static !important;
+    }
+    #video {
+      position: absolute;
+      width: 1px !important;
+      height: 1px !important;
+      opacity: 0;
     }
 
-    #canvas-wrapper {
-      position: relative;
-    }
-    </style>
-    <style>
-    h4{
-      font-size: 15px !important;
-      color:aqua;
-      padding-left: 0.5vw;
-    }
-    .Sliders{
-      display: flex;
-      position: absolute !important;
-      top: 30px;
-      left: 25vw;
-      background-color:  rgba(1,1,1,0.3);
-    }
-    #stats {
-      position: absolute;
-      width: 100%;
-      height: 80px;
-    }
-
-    #main {
-      position: absolute;
-      margin: 0;
-    }
-    #output{
-      position: absolute;
-      top: 66.1vh;
+    /* 攝影機預覽：左下角小視窗 */
+    #output {
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
       width: 320px;
-      height: 240px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
     }
-    </style>
+
+    /* dat.GUI 控制面板 */
+    .dg.ac {
+      z-index: 3 !important;
+    }
+
+    @media (max-width: 767px) {
+      #stats canvas {
+        width: 96px !important;
+        height: 56px !important;
+      }
+      #output {
+        left: auto;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        width: 32vw;
+        max-width: 180px;
+      }
+      .dg.main {
+        width: min(300px, calc(100vw - 16px)) !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
