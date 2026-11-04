@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>臉部特徵點驅動 Live2D</title>
+  <style>
+    :root { --bg: #fafafa; --fg: #222; --muted: #666; --card: #fff; --line: #ddd; --accent: #0b6bcb; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #16181b; --fg: #e8e8e8; --muted: #a0a0a0; --card: #202327; --line: #33373c; --accent: #6cb4ff; }
+    }
+    body { margin: 0; background: var(--bg); color: var(--fg); font-family: system-ui, "Noto Sans TC", "Microsoft JhengHei", sans-serif; line-height: 1.6; }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 16px; }
+    h1 { margin: 0 0 8px; font-size: 1.8rem; }
+    p { color: var(--muted); margin: 0 0 24px; }
+    .demo { display: inline-block; background: var(--accent); color: #fff; padding: 12px 22px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    h2 { font-size: 1.1rem; margin: 40px 0 12px; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li a { display: block; padding: 12px 16px; margin-bottom: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; color: var(--fg); text-decoration: none; }
+    li a:hover { border-color: var(--accent); }
+    small { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>臉部特徵點驅動 Live2D</h1>
+    <p>用攝影機即時偵測臉部特徵點，驅動 Live2D 角色。請用桌機版 Chrome／Edge 開啟並允許攝影機權限。</p>
+    <a class="demo" href="src/?model=mediapipe_face_mesh">開啟主作品 Demo</a>
+
+    <h2>其他頁面</h2>
+    <ul>
+      <li><a href="_開發歷程/03_Live2D直播_OBS綠幕/">Live2D 直播版（Hiyori、綠幕背景）</a></li>
+      <li><a href="https://www.youtube.com/watch?v=id46uL_Yzsk">示範影片：臉部特徵點偵測</a></li>
+      <li><a href="https://www.youtube.com/watch?v=lX7O4dP1Rkk">示範影片：特徵點驅動 Live2D</a></li>
+      <li><a href="https://www.youtube.com/watch?v=GYcZCGL6EN4">示範影片：Live2D 直播</a></li>
+    </ul>
+
+    <p style="margin-top:32px"><small><a href="https://github.com/brian901106/face-landmark-live2d" style="color:inherit">GitHub 原始碼</a></small></p>
+  </main>
+</body>
+</html>
