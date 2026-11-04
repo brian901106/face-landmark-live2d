@@ -30,7 +30,7 @@ window.filterSetBeta = beta => {
   filterZ.setBeta(beta);
 };
 
-//載入cubism model => 使用敘豪學長版本
+//載入 Cubism model
 async function loading() {
   try {
     av1 = await loadModel('src/resource/hiyori/Hiyori.model3.json');
