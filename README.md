@@ -1,5 +1,6 @@
 # 臉部特徵點驅動 Live2D
 
+**線上 Demo：** https://brian901106.github.io/face-landmark-live2d/ （桌機版 Chrome／Edge，需允許攝影機權限）
 
 ## 成果
 
@@ -10,6 +11,8 @@
 
 ```
 .
+├── index.html    # GitHub Pages 首頁（連到主作品、直播版與說明頁）
+├── .nojekyll     # 讓 GitHub Pages 不忽略 _開發歷程/ 資料夾
 ├── src/          # 主作品：臉部特徵點驅動 Live2D（初音未來、黑板背景），可執行
 ├── report/       # 說明頁（心得、評分項目、示範影片）
 │   ├── 01_臉部特徵點偵測.html
